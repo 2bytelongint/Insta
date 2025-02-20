@@ -1,8 +1,13 @@
 import express from 'express';
-import { register } from '../../controllers/user.controller.js';
+import { register, signin } from '../../controllers/user-controller.js';
+import multer from 'multer';
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-const route = express.Router();
+const router = express.Router();
 
-route.post('/signup', register);
 
-export default route;
+router.post('/signup', upload.single('image'), register);
+router.post('/signin', signin);
+
+export default router;
