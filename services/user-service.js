@@ -28,7 +28,7 @@ class UserService{
     async signin(data){
         try {
             console.log("User : ")
-            const user = await this.findOne(data.email);
+            const user = await this.findUserByEmail(data.email);
             
             console.log(data.email);
             
@@ -39,7 +39,7 @@ class UserService{
             }
 
             const isMatch = await user.isPasswordMatched(data.password);
-            console.log(isMatch);
+            console.log("isMatch", isMatch);
             
 
             if(!isMatch){
@@ -58,13 +58,33 @@ class UserService{
         }
     }
 
-    async findOne(email){
+    async findUserByEmail(email){
         try {
             const user = await this.userRepository.getByEmail(email);
+            
             return user;
         } catch (error) {
-            console.log("Something went wrong in the user-service level");
+            console.log("Something went wrong in the findOne function of user-service level");
             
+        }
+    }
+
+    async findUserByUserName(userName){
+        try {
+            const user = await this.userRepository.getByUserName(userName);
+            return user;
+        } catch (error) {
+            console.log("Something went wrong in the findOne function of user-service level");
+            
+        }
+    }
+
+    async findUserById(id){
+        try {
+            const user = await this.userRepository.getById(id);
+            return user;
+        } catch (error) {
+            console.log("Something went wrong in the findOne function of user-service level");
         }
     }
 

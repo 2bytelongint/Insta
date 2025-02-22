@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+import  mongoose  from "mongoose";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 const userSchema = new mongoose.Schema({
@@ -68,16 +68,17 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.pre("save", async function(next){
-    const user = this;
-    const salt = await bcrypt.genSalt(10)
-    const encryptedPassword = bcrypt.hashSync(user.password, salt);
-    user.password = encryptedPassword;
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next(); // Only hash if password is modified
+
+    const salt = await bcrypt.genSalt(10);
+    this.password =await bcrypt.hash(this.password, salt); // ✅ Await the hashing process
+
     next();
-})
+});
 
 userSchema.methods.isPasswordMatched = async function(plainPassword){
-    return bcrypt.compareSync(plainPassword,this.password)
+    return bcrypt.compare(plainPassword,this.password)
 }
 
 userSchema.methods.genJWT = function() {

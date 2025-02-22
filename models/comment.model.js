@@ -1,7 +1,7 @@
 import {mongoose} from 'mongoose'
 
 const commentSchema = new mongoose.Schema({
-    text : {
+    content : {
         type : String,
         required : true
     },
@@ -12,11 +12,23 @@ const commentSchema = new mongoose.Schema({
         required : true
     },
 
-    post : {
+    onModel : {
+        type : String,
+        required : true,
+        enum : ['Post', 'Comment']
+    },
+
+    commentable : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'Post',
-        required : true 
-    }
+        refPath : 'onModel',
+        required : true
+    },
+    likes : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    ],
 })
 
 
