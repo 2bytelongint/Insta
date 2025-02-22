@@ -29,7 +29,8 @@ const postSchema = new mongoose.Schema({
             ref : 'Comment'
         }
     ]
+},{
+    timestamps : true
 });
 
-//Export the model
 export const Post = mongoose.model('Post', postSchema);

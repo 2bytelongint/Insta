@@ -26,11 +26,9 @@ export const register = async(req, res) => {
         }
         let profilePhoto = '';
         if (req.file) {
-            console.log("✅ File Received:", req.file.originalname);
-            console.log("📂 File Type:", req.file.mimetype);
             profilePhoto = req.file.buffer;
         } else {
-            console.warn("⚠️ No file uploaded");
+            console.log("No file uploaded");
         }
         const response = await userService.signUp({
             email,

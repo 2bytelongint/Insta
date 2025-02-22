@@ -11,7 +11,7 @@ class UserService{
             
             if (data.profilePhoto) {
                 const userId = data.email || data.userName; // Use email or userName as an identifier
-                profilePhoto = await UploadService.uploadImage(data.profilePhoto, userId);
+                profilePhoto = await UploadService.uploadImage(data.profilePhoto, userId, "profile");
               }
            
             

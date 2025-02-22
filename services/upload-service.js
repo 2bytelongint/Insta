@@ -13,26 +13,33 @@ class UploadService {
     return readable;
   }
 
-  async uploadImage(fileBuffer, userId, folder = "users/profile") {
+  async uploadImage(fileBuffer, userId, type) {
     return new Promise((resolve, reject) => {
       if (!fileBuffer || fileBuffer.length === 0) {
-        console.error("❌ UploadService Error: fileBuffer is missing or empty");
+        console.error("UploadService Error: fileBuffer is missing or empty");
         return reject(new Error("No file buffer provided"));
       }
 
+      let folder = "users"
+      let publicId = "";
       const timestamp = Date.now();
-      const publicId = `${folder}/${userId}_${timestamp}`;
 
-      console.log(`📤 Uploading image for User: ${userId} -> ${publicId}`);
+      if(type === "profile"){
+        folder = "users/profile_picture",
+        publicId = `${folder}/${userId}`;
+      }
+      else{
+        folder = "users/posts",
+        publicId = `${folder}/${userId}_${timestamp}`;
+      }
 
       const uploadStream = this.cloudinary.uploader.upload_stream(
-        { folder, public_id: `${userId}_${timestamp}` }, // Naming convention
+        { folder, public_id: publicId, overwrite: true ? type === "profile" : type === "post" }, 
         (error, result) => {
           if (error) {
-            console.error("❌ Cloudinary Upload Error:", error.message);
             return reject(error);
           }
-          console.log("✅ Cloudinary Upload Success:", result.secure_url);
+
           resolve(result.secure_url);
         }
       );

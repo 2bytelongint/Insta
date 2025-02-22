@@ -1,4 +1,4 @@
-import {mongoose} from 'mongoose'
+import mongoose from 'mongoose'
 
 const commentSchema = new mongoose.Schema({
     content : {
@@ -23,13 +23,17 @@ const commentSchema = new mongoose.Schema({
         refPath : 'onModel',
         required : true
     },
-    likes : [
+    comments : [
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref : 'User'
+            ref : 'Comment'
         }
-    ],
-})
+    ]
+},
+{
+    timestamps : true
+}
+)
 
 
 export default Comment = mongoose.model('Comment', commentSchema)
