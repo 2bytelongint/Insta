@@ -5,8 +5,8 @@ import connectDB from "./utils/db.js";
 import apiRoutes from './routes/index.js';
 import passport from 'passport';
 import { passportAuth } from './config/jwt-middleware.js';
-import UserRepository from './repo/user-repo.js';
-import FollowService from './services/followService.js';
+import PostRepository from './repo/post-repo.js';
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,5 +25,9 @@ const PORT = process.env.PORT
 app.listen(PORT, async()=> {
     console.log(`Server is running at ${PORT}`)
     connectDB();
+    
+    const postRepo = new PostRepository();
+    const post = await postRepo.findPostByUserId("67b82ce2511f7370b9786393");
+    console.log(post);
     
 })

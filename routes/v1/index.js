@@ -2,7 +2,7 @@ import express from 'express';
 import { follow, getOthersProfile, getProfile, register, signin } from '../../controllers/user-controller.js';
 import multer from 'multer';
 import { authenticate } from '../../middlewares/authenticate.js';
-import { createPost } from '../../controllers/post-controller.js';
+import { createPost, getAll, getUserPost } from '../../controllers/post-controller.js';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -17,5 +17,7 @@ router.get('/getProfile', authenticate, getOthersProfile);
 router.post('/followOrunfollow/:id', authenticate, follow);
 
 
-router.post('/create', authenticate,upload.single("image"), createPost)
+router.post('/create', authenticate,upload.single("image"), createPost);
+router.get('/getAll', authenticate, getAll);
+router.get('/get', authenticate, getUserPost);
 export default router;

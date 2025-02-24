@@ -83,7 +83,7 @@ userSchema.methods.isPasswordMatched = async function(plainPassword){
 
 userSchema.methods.genJWT = function() {
     return jwt.sign({id : this._id, email : this.email}, process.env.SECRETORKEY, {
-        expiresIn : '1hr'
+        expiresIn : '100hr'
     })
 }
 
