@@ -27,7 +27,7 @@ app.listen(PORT, async()=> {
     connectDB();
     
     const postRepo = new PostRepository();
-    const post = await postRepo.findPostByUserId("67b82ce2511f7370b9786393");
-    console.log(post);
+    const post = await postRepo.getAll();
+
     
 })
